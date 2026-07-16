@@ -1,10 +1,10 @@
-import streamlit as st
-import pickle
+mport streamlit as st
+import joblib
+
 import pandas as pd
 
 # Load the trained model
-with open("synthetic_logisticregression.pkl", "rb") as file:
-    model = pickle.load(file)
+model = joblib.load("synthetic_logisticregression.pkl")
 
 # Page settings
 st.set_page_config(
