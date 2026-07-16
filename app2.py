@@ -5,7 +5,8 @@ import pandas as pd
 with open("decisiontreeregressor.pkl", "rb") as file:
     model = pickle.load(file)
 
-st.title("Decision Tree Salary Predictor")
+st.title("Salary Predictor")
+
 
 experience = st.number_input(
     "Years of Experience",
@@ -23,3 +24,4 @@ if st.button("Predict Salary"):
     prediction = model.predict(data)
 
     st.success(f"Predicted Salary: ₹{prediction[0]:,.2f}")
+    
