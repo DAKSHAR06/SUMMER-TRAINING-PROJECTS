@@ -2,10 +2,9 @@ streamlit
 pandas
 numpy
 scikit-learn
-
 joblib
 streamlit
-tensorflow
+tensorflow==2.16.1
 numpy
-pillow
-opencv-python-headless
+pandas
+scikit-learn
