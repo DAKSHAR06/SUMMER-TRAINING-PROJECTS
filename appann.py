@@ -8,7 +8,7 @@ st.set_page_config(
     layout="centered"
 )
 
-model = joblib.load("annregg.pkl","rb")
+model = joblib.load("annregg.pkl")
 
 
 st.title("🍷 ANNR Wine Quality Prediction")
