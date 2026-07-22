@@ -1,17 +1,17 @@
 import streamlit as st
 import numpy as np
-from tensorflow.keras.models import load_model
+import joblib
 
 st.set_page_config(
-    page_title="ANN Wine Quality Predictor",
+    page_title="ANNR Wine Quality Predictor",
     page_icon="🍷",
     layout="centered"
 )
 
+model = joblib.load("annregg.pkl","rb")
 
-model = load_model("ann_wine.keras")
 
-st.title("🍷 Wine Quality Prediction using ANN")
+st.title("🍷 ANNR Wine Quality Prediction")
 st.write("Enter the wine properties below to predict its quality.")
 
 fixed_acidity = st.number_input("Fixed Acidity", value=7.40)
