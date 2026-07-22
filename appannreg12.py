@@ -1,6 +1,10 @@
 import streamlit as st
+import numpy as np
 import pandas as pd
-import pickle
+
+from tensorflow.keras.models import load_model
+
+model = load_model("ann1_wine.keras")
 
 st.set_page_config(
     page_title="Wine Quality Prediction",
@@ -8,8 +12,7 @@ st.set_page_config(
     layout="wide"
 )
 
-with open("annregg12.pkl", "rb") as file:
-    model = pickle.load(file)
+
 
 st.title("🍷 Wine Quality Prediction")
 st.subheader("ANN-Based Wine Quality Prediction")
@@ -105,23 +108,35 @@ with col3:
 
 st.divider()
 
-if st.button("🍷 Predict Wine Quality", use_container_width=True):
+if st.button("Predict Wine Quality"):
 
-    input_data = pd.DataFrame({
-        "fixed acidity": [fixed_acidity],
-        "volatile acidity": [volatile_acidity],
-        "citric acid": [citric_acid],
-        "residual sugar": [residual_sugar],
-        "chlorides": [chlorides],
-        "free sulfur dioxide": [free_sulfur_dioxide],
-        "total sulfur dioxide": [total_sulfur_dioxide],
-        "density": [density],
-        "pH": [ph],
-        "sulphates": [sulphates],
-        "alcohol": [alcohol]
-    })
+    input_data = np.array([[
+        fixed_acidity,
+        volatile_acidity,
+        citric_acid,
+        residual_sugar,
+        chlorides,
+        free_sulfur_dioxide,
+        total_sulfur_dioxide,
+        density,
+        ph,
+        sulphates,
+        alcohol
+    ]], dtype=np.float32)
 
-    prediction = model.predict(input_data, verbose=0)
+    st.write("Input shape:", input_data.shape)
 
-    predicted_quality = float(prediction[0][0])
-    st.success(f"Predicted Wine Quality: {predicted_quality:.2f}")
+    try:
+        prediction = model(input_data, training=False).numpy()
+
+        predicted_quality = float(prediction[0][0])
+
+        st.success(f"Predicted Quality Score: {predicted_quality:.2f}")
+
+        if predicted_quality >= 6:
+            st.success("Good Quality Wine")
+        else:
+            st.error("Bad Quality Wine")
+
+    except Exception as e:
+        st.error(f"Prediction Error: {e}")
